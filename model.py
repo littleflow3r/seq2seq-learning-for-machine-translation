@@ -53,7 +53,13 @@ class Seq2Seq(nn.Module):
         assert encoder.hidden_dim == decoder.hidden_dim, 'Hidden dimension of encoder and decoder must be equal!'
         assert encoder.nlayers == decoder.nlayers, 'nlayers of the encoder and decoder must be equal!'
 
-    def forward(self, src, trg, teacher_forcing_ratio =0.5):
+    def forward(self, src, trg=None, teacher_forcing_ratio =0.5):
+    	#inference
+        if trg is None:
+            trg = torch.zeros((25, src.shape[1])).fill_(2).long().to(src.device)
+            assert teacher_forcing_ratio == 0, "must be zero during inference"
+            #because this is for real world usage so should not use the original target data for TRG
+
         bsize = trg.shape[1]
         max_len = trg.shape[0]
         trg_vocab_size = self.decoder.out_dim
