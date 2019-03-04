@@ -67,7 +67,7 @@ def train(model, train_it, optimizer, criterion, clip):
         trg = batch.en
         optimizer.zero_grad()
         output = model(src, trg)
-        loss = criterion(output[1:].view(-1, output.shape[2]), trg[1:].view(-1))
+        loss = criterion(output[1:].view(-1, output.shape[-1]), trg[1:].view(-1))
         loss.backward()
         torch.nn.utils.clip_grad_norm_(model.parameters(), clip)
         optimizer.step()
@@ -81,7 +81,7 @@ def evaluate(model, data_it, criterion):
         src = batch.jp
         trg = batch.en
         output = model(src, trg, 0)
-        loss = criterion(output[1:].view(-1, output.shape[2]), trg[1:].view(-1))
+        loss = criterion(output[1:].view(-1, output.shape[-1]), trg[1:].view(-1))
         epoch_loss += loss.item()
     return epoch_loss/ len(data_it)
 
