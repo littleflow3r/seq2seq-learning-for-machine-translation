@@ -102,7 +102,7 @@ pad_idx = TRG.vocab.stoi['<pad>']
 criterion = nn.CrossEntropyLoss(ignore_index=pad_idx)
 
 epoch = 10
-clip = 10
+clip = 1
 savedir = 'models'
 model_save_path = os.path.join(savedir, 's2smodel.pt')
 best_valid_loss = float('inf')
