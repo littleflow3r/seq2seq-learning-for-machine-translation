@@ -1,6 +1,7 @@
 import sys
 import os
 import math
+from tqdm import tqdm
 
 import torch
 import torch.optim as optim
@@ -62,7 +63,7 @@ for b in train_it:
 def train(model, train_it, optimizer, criterion, clip):
     model.train()
     epoch_loss = 0
-    for i, batch in enumerate(train_it):
+    for i, batch in tdqm(enumerate(train_it)):
         src = batch.jp
         trg = batch.en
         optimizer.zero_grad()
@@ -77,7 +78,7 @@ def train(model, train_it, optimizer, criterion, clip):
 def evaluate(model, data_it, criterion):
     model.eval()
     epoch_loss = 0
-    for i, batch in enumerate(data_it):
+    for i, batch in tqdm(enumerate(data_it)):
         src = batch.jp
         trg = batch.en
         output = model(src, trg, 0)
